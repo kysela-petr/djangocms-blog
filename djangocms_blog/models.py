@@ -1,5 +1,7 @@
 import hashlib
+from django.contrib.contenttypes.fields import GenericRelation
 
+from comment.models import Comment
 from aldryn_apphooks_config.fields import AppHookConfigField
 from aldryn_apphooks_config.managers.parler import AppHookConfigTranslatableManager
 from cms.models import CMSPlugin, PlaceholderField
@@ -234,6 +236,7 @@ class Post(KnockerModel, BlogMetaMixin, TranslatableModel):
     enable_comments = models.BooleanField(
         verbose_name=_("enable comments on post"), default=get_setting("ENABLE_COMMENTS")
     )
+    comments = GenericRelation(Comment)
     sites = models.ManyToManyField(
         "sites.Site",
         verbose_name=_("Site(s)"),
